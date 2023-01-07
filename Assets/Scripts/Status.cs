@@ -8,21 +8,21 @@ public class Status : Base
 {
 
     // Player status
-    static bool[] isDuplicate = new bool[2];
-    static int[] level = new int[2];
-    static bool[] isBlur = new bool[2];
-    static float[] freeze = new float[2];
-    static bool[] isInfest = new bool[2];
-    float[] infestTimer = new float[2];
+    static bool[] isDuplicate = new bool[playerCount];
+    static int[] level = new int[playerCount];
+    static bool[] isBlur = new bool[playerCount];
+    static float[] freeze = new float[playerCount];
+    static bool[] isInfest = new bool[playerCount];
+    float[] infestTimer = new float[playerCount];
     const int infestStepInterval = 5;
-    int[] infestStep = new int[2];
-    static bool[] isCounterspell = new bool[2];
-    static float[] invincible = new float[2];
-    static bool[] isAvenge = new bool[2];
-    static int[] curse = new int[2];
-    static int[] pride = new int[2];
+    int[] infestStep = new int[playerCount];
+    static bool[] isCounterspell = new bool[playerCount];
+    static float[] invincible = new float[playerCount];
+    static bool[] isAvenge = new bool[playerCount];
+    static int[] curse = new int[playerCount];
+    static int[] pride = new int[playerCount];
     // GameObject
-    public static Text[] TxPlayerStatus = new Text[2];
+    public static Text[] TxPlayerStatus = new Text[playerCount];
     // Display status
     StringBuilder sb;
     // Class

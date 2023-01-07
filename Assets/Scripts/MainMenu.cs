@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : Base
 {
 
 	// GameObjects
@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
 	GameObject PnAbout;
 	List<GameObject> mainPanels = new List<GameObject>();
 	Toggle TgLog;
+
 	// Enum panel target, used to indicate which panel to be actived
 	enum PanelTarget
 	{
@@ -25,15 +26,9 @@ public class MainMenu : MonoBehaviour
 		OPTIONS = 3,
 		ABOUT = 4,
 	}
-	// Enum game control type
-	enum GameControl
-    {
-		KEYBOARD = 0,
-		SENSORS = 1
-    }
 
-	// Use this for initialization
-	void Start()
+    // Use this for initialization
+    void Start()
 	{
 		// Set GameObjects
 		PnWelcome = GameObject.Find("PnWelcome");
@@ -69,8 +64,8 @@ public class MainMenu : MonoBehaviour
 	private void LoadScene(GameControl gameControl)
 	{
 		SceneManager.LoadScene("Game");
-		Base.gameControl = (int)gameControl;
-	}
+        Base.gameControl = (int)gameControl;
+    }
 
 	private void BtnStartOnClick()
 	{

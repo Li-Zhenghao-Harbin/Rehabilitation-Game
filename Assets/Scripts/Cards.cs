@@ -8,7 +8,7 @@ public class Cards : Base
 
     // Cards
     const int maxCardsCount = 5;
-    static int[,] playerCards = new int[2, maxCardsCount];
+    static int[,] playerCards = new int[playerCount, maxCardsCount];
     int[] playerCardsCount = new int[2];
     public const int maxCardIndex = 30;
     string[] cardsName = new string[]
@@ -144,18 +144,18 @@ public class Cards : Base
         1
     };
     // GameObjects
-    Image[,] ImgPlayerCards = new Image[2, maxCardsCount];
+    Image[,] ImgPlayerCards = new Image[playerCount, maxCardsCount];
     // Class
     Players players;
     Shapes shapes;
     Status status;
-    Game game;
+    GameController gameController;
     // Status
-    public static bool[] prepareToCurse = new bool[2];
-    public static bool[] prepareToPride = new bool[2];
+    public static bool[] prepareToCurse = new bool[playerCount];
+    public static bool[] prepareToPride = new bool[playerCount];
     // Statics
-    public static int[] playerUsedCardsCount = new int[2];
-    public static int[] playerFoundCardsCount = new int[2];
+    public static int[] playerUsedCardsCount = new int[playerCount];
+    public static int[] playerFoundCardsCount = new int[playerCount];
 
     // Use this for initialization
     void Start()
@@ -175,7 +175,7 @@ public class Cards : Base
         players = gameObject.GetComponent<Players>();
         shapes = gameObject.GetComponent<Shapes>();
         status = gameObject.GetComponent<Status>();
-        game = gameObject.GetComponent<Game>();
+        gameController = gameObject.GetComponent<GameController>();
     }
 
     public string GetCardName(int cardIndex)
@@ -274,7 +274,7 @@ public class Cards : Base
     private void UseCard(int player, int cardIndex)
     {
         playerUsedCardsCount[player]++;
-        game.UpdateLog(player, "Use a card - " + GetCardName(cardIndex));
+        gameController.UpdateLog(player, "Use a card - " + GetCardName(cardIndex));
         int opponentPlayer = GetOpponent(player);
         // Status-Counterspell
         if (status.GetCounterspell(opponentPlayer))

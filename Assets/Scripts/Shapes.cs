@@ -7,7 +7,7 @@ public class Shapes : Base
 {
 
     // GameObjects
-    public Text[] TxPlayerShapes = new Text[2];
+    public Text[] TxPlayerShapes = new Text[playerCount];
     // Shapes
     public enum TargetShape
     {

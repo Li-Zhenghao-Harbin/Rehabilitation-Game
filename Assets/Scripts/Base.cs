@@ -11,11 +11,40 @@ public class Base : MonoBehaviour
 	public const int player2 = 1;
 	// Settings
 	public const float gameSpeed = 1f;
-	public static int gameControl = 0; // 0-keyboard, 1-sensors
+	public static int gameControl = 1; // 0-keyboard, 1-sensors
+	public static int gamePlayer = 1; // 0-single, 1-double
 	public static bool showLog = true;
 
-	// Use this for initialization
-	void Start()
+    public enum GameControl
+    {
+        KEYBOARD = 0,
+        SENSORS = 1
+    }
+
+	public enum GamePlayer
+    {
+		SINGLE = 0,
+		DOUBLE = 1
+    }
+
+    public int GetGameControl(GameControl gameControl)
+    {
+        return (int)gameControl;
+    }
+
+	public int GetGamePlayer(GamePlayer gamePlayer)
+    {
+		return (int)gamePlayer;
+    }
+
+	public void SetVisible(GameObject gameObject, bool visible)
+    {
+		gameObject.GetComponent<CanvasGroup>().alpha = visible ? 1 : 0;
+		gameObject.GetComponent<CanvasGroup>().interactable = gameObject.GetComponent<CanvasGroup>().blocksRaycasts = visible;
+    }
+
+    // Use this for initialization
+    void Start()
 	{
 
 	}
