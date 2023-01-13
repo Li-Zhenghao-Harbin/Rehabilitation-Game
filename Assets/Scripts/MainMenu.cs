@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Text;
 
 public class MainMenu : Base
 {
@@ -60,11 +61,25 @@ public class MainMenu : Base
 		}
 	}
 
-	// Load scene and set game control
-	private void LoadScene(GameControl gameControl)
-	{
-		SceneManager.LoadScene("Game");
-        Base.gameControl = (int)gameControl;
+	private void UpdateSelection()
+    {
+		StringBuilder sb = new StringBuilder();
+		sb.Append(gameControl == GetGameControl(GameControl.KEYBOARD) ? "Keyboard - " : "Sensors - ");
+		if (gamePlayer == GetGamePlayer(GamePlayer.SINGLE))
+        {
+			sb.Append("Single - ");
+			SetVisible(GameObject.Find("TxGameMode"), true);
+			SetVisible(GameObject.Find("BtnTutorial"), true);
+			SetVisible(GameObject.Find("BtnBoss"), true);
+			sb.Append(gameMode == GetGameMode(GameMode.TUTORIAL) ? "Tutorial" : "Boss");
+        } else
+        {
+			sb.Append("Double");
+			SetVisible(GameObject.Find("TxGameMode"), false);
+			SetVisible(GameObject.Find("BtnTutorial"), false);
+			SetVisible(GameObject.Find("BtnBoss"), false);
+		}
+		GameObject.Find("TxReadyToPlay").GetComponent<Text>().text = sb.ToString();
     }
 
 	private void BtnStartOnClick()
@@ -73,21 +88,58 @@ public class MainMenu : Base
 		// Set onClick events
 		GameObject.Find("BtnKeyboard").GetComponent<Button>().onClick.AddListener(KeyboardOnClick);
 		GameObject.Find("BtnSensors").GetComponent<Button>().onClick.AddListener(SensorsOnClick);
+		GameObject.Find("BtnDoublePlayers").GetComponent<Button>().onClick.AddListener(DoublePlayersOnClick);
+		GameObject.Find("BtnSinglePlayer").GetComponent<Button>().onClick.AddListener(SinglePlayerOnClick);
+		GameObject.Find("BtnTutorial").GetComponent<Button>().onClick.AddListener(TutorialOnClick);
+		GameObject.Find("BtnBoss").GetComponent<Button>().onClick.AddListener(BossOnClick);
+		GameObject.Find("BtnPlay").GetComponent<Button>().onClick.AddListener(PlayOnClick);
 	}
 
 	private void KeyboardOnClick()
 	{
-		LoadScene(GameControl.KEYBOARD);
+		gameControl = GetGameControl(GameControl.KEYBOARD);
+		UpdateSelection();
 	}
 
 	private void SensorsOnClick()
 	{
-		LoadScene(GameControl.SENSORS);
+		gameControl = GetGameControl(GameControl.SENSORS);
+		UpdateSelection();
+	}
+
+	private void DoublePlayersOnClick()
+    {
+		gamePlayer = GetGamePlayer(GamePlayer.DOUBLE);
+		UpdateSelection();
+	}
+
+	private void SinglePlayerOnClick()
+    {
+		gamePlayer = GetGamePlayer(GamePlayer.SINGLE);
+		UpdateSelection();
+	}
+
+	private void TutorialOnClick()
+    {
+		gameMode = GetGameMode(GameMode.TUTORIAL);
+		UpdateSelection();
+	}
+
+	private void BossOnClick()
+    {
+		gameMode = GetGameMode(GameMode.BOSS);
+		UpdateSelection();
+	}
+
+	private void PlayOnClick()
+    {
+		SceneManager.LoadScene(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? "Game" : "Boss");
 	}
 
 	private void BtnHowToPlayOnClick()
 	{
 		ActivePanel(PanelTarget.HOWTOPLAY);
+		UpdateSelection();
 	}
 
 	private void BtnOptionsOnClick()

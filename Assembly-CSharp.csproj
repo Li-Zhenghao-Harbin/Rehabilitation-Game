@@ -58,10 +58,12 @@
      <Compile Include="Assets\Ardity\Scripts\Threads\SerialThreadCustomDelimiter.cs" />
      <Compile Include="Assets\Ardity\Scripts\Threads\SerialThreadLines.cs" />
      <Compile Include="Assets\Scripts\Base.cs" />
+     <Compile Include="Assets\Scripts\BossController.cs" />
      <Compile Include="Assets\Scripts\CardItems.cs" />
      <Compile Include="Assets\Scripts\Cards.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\Medusa.cs" />
      <Compile Include="Assets\Scripts\Players.cs" />
      <Compile Include="Assets\Scripts\SensorController.cs" />
      <Compile Include="Assets\Scripts\Shapes.cs" />

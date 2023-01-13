@@ -275,6 +275,10 @@ public class Cards : Base
     {
         playerUsedCardsCount[player]++;
         gameController.UpdateLog(player, "Use a card - " + GetCardName(cardIndex));
+        if (Medusa.buffBless)
+        {
+            players.ChangeHP(player1, 1);
+        }
         int opponentPlayer = GetOpponent(player);
         // Status-Counterspell
         if (status.GetCounterspell(opponentPlayer))

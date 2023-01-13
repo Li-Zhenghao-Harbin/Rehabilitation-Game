@@ -31,9 +31,9 @@ public class CardItems : MonoBehaviour
         isCardItemActive[index] = false;
     }
 
-    public void ActiveCardItem()
+    public void ActiveCardItem(int generatedCardItemCount)
     {
-        for (int i = 0; i < maxCardItemCount; i++)
+        for (int i = 0; i < generatedCardItemCount; i++)
         {
             if (isCardItemActive[i] == false)
             {

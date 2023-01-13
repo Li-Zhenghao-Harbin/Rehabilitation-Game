@@ -18,12 +18,11 @@ public class Players : Base
     public const int maxGp = 50;
     // HP and GP bar layout
     const int maxBarWidth = 130;
+    const int maxBossBarWidth = 875;
     const int barHeight = 10;
     const int barPadding = 10;
     const int hpBarY = 0;
     const int gpBarY = -35;
-    // Move
-    float[] speed = new float[] { 2f, 2f };
     // Push
     const float pushDistance = 2f;
     // Class
@@ -40,31 +39,23 @@ public class Players : Base
         RIGHT = 3
     };
 
-    void Awake()
-    {
-        gameController = gameObject.GetComponent<GameController>();
-        cards = gameObject.GetComponent<Cards>();
-        cardItems = gameObject.GetComponent<CardItems>();
-        status = gameObject.GetComponent<Status>();
-    }
-
     // Use this for initialization
     void Start()
     {
         // Set GameObjects
         TxPlayerHP[player1] = GameObject.Find("PnPlayer1/TxPlayerHP").GetComponent<Text>();
-        TxPlayerHP[player2] = GameObject.Find("PnPlayer2/TxPlayerHP").GetComponent<Text>();
         TxPlayerGP[player1] = GameObject.Find("PnPlayer1/TxPlayerGP").GetComponent<Text>();
-        TxPlayerGP[player2] = GameObject.Find("PnPlayer2/TxPlayerGP").GetComponent<Text>();
         ImgPlayerHP[player1] = GameObject.Find("PnPlayer1/ImgPlayerHP").GetComponent<Image>();
-        ImgPlayerHP[player2] = GameObject.Find("PnPlayer2/ImgPlayerHP").GetComponent<Image>();
         ImgPlayerGP[player1] = GameObject.Find("PnPlayer1/ImgPlayerGP").GetComponent<Image>();
+        TxPlayerHP[player2] = GameObject.Find("PnPlayer2/TxPlayerHP").GetComponent<Text>();
+        TxPlayerGP[player2] = GameObject.Find("PnPlayer2/TxPlayerGP").GetComponent<Text>();
+        ImgPlayerHP[player2] = GameObject.Find("PnPlayer2/ImgPlayerHP").GetComponent<Image>();
         ImgPlayerGP[player2] = GameObject.Find("PnPlayer2/ImgPlayerGP").GetComponent<Image>();
         // Set class
-        //game = gameObject.GetComponent<Game>();
-        //cards = gameObject.GetComponent<Cards>();
-        //cardItems = gameObject.GetComponent<CardItems>();
-        //status = gameObject.GetComponent<Status>();
+        gameController = gameObject.GetComponent<GameController>();
+        cards = gameObject.GetComponent<Cards>();
+        cardItems = gameObject.GetComponent<CardItems>();
+        status = gameObject.GetComponent<Status>();
     }
 
     public void SetHP(int player, int value)
@@ -110,15 +101,6 @@ public class Players : Base
         else if (hp[player] <= 0)
         {
             hp[player] = 0;
-            // Game over
-            if (hp[GetOpponent(player)] <= 0)
-            {
-                // Tie
-            }
-            else
-            {
-
-            }
         }
         TxPlayerHP[player].text = "HP " + hp[player] + " / " + maxHp[player];
         UpdateHPBar(player);
@@ -128,7 +110,7 @@ public class Players : Base
     private void UpdateHPBar(int player)
     {
         // Set size of HP bar
-        int barWidth = maxBarWidth * hp[player] / maxHp[player];
+        int barWidth = ((IsBoss() && player == player2) ? maxBossBarWidth : maxBarWidth) * hp[player] / maxHp[player];
         RectTransform rectTransformImgPlayerHP = ImgPlayerHP[player].GetComponent<RectTransform>();
         rectTransformImgPlayerHP.sizeDelta = new Vector2(barWidth, barHeight);
         // Set position of HP bar
@@ -148,16 +130,6 @@ public class Players : Base
         else if (gp[player] >= maxGp)
         {
             gp[player] = maxGp;
-            // Game over
-            if (gp[GetOpponent(player)] >= maxGp)
-            {
-                // Tie
-
-            }
-            else
-            {
-
-            }
         }
         TxPlayerGP[player].text = "GP " + gp[player] + " / " + maxGp;
         UpdateGPBar(player);
@@ -212,21 +184,37 @@ public class Players : Base
         }
         switch (moveDirection)
         {
+            //case MoveDirection.LEFT:
+            //    //game.Player[player].transform.Translate(-speed[player] * Time.deltaTime, 0, 0, Space.Self);
+            //    gameController.Player[player].transform.Translate(0, 0, playerMovingSpeed[player] * Time.deltaTime, Space.Self);
+            //    break;
+            //case MoveDirection.RIGHT:
+            //    //game.Player[player].transform.Translate(speed[player] * Time.deltaTime, 0, 0, Space.Self);
+            //    gameController.Player[player].transform.Translate(0, 0, -playerMovingSpeed[player] * Time.deltaTime, Space.Self);
+            //    break;
+            //case MoveDirection.UP:
+            //    //game.Player[player].transform.Translate(0, 0, speed[player] * Time.deltaTime, Space.Self);
+            //    gameController.Player[player].transform.Translate(playerMovingSpeed[player] * Time.deltaTime, 0, 0, Space.Self);
+            //    break;
+            //case MoveDirection.DOWN:
+            //    //game.Player[player].transform.Translate(0, 0, -speed[player] * Time.deltaTime, Space.Self);
+            //    gameController.Player[player].transform.Translate(-playerMovingSpeed[player] * Time.deltaTime, 0, 0, Space.Self);
+            //    break;
             case MoveDirection.LEFT:
-                //game.Player[player].transform.Translate(-speed[player] * Time.deltaTime, 0, 0, Space.Self);
-                gameController.Player[player].transform.Translate(0, 0, speed[player] * Time.deltaTime, Space.Self);
+                gameController.Player[player].transform.eulerAngles = new Vector3(0, 0, 0);
+                gameController.Player[player].transform.Translate(-playerMovingSpeed[player] * Time.deltaTime, 0, 0, Space.Self);
                 break;
             case MoveDirection.RIGHT:
-                //game.Player[player].transform.Translate(speed[player] * Time.deltaTime, 0, 0, Space.Self);
-                gameController.Player[player].transform.Translate(0, 0, -speed[player] * Time.deltaTime, Space.Self);
+                gameController.Player[player].transform.eulerAngles = new Vector3(0, -180, 0);
+                gameController.Player[player].transform.Translate(-playerMovingSpeed[player] * Time.deltaTime, 0, 0, Space.Self);
                 break;
             case MoveDirection.UP:
-                //game.Player[player].transform.Translate(0, 0, speed[player] * Time.deltaTime, Space.Self);
-                gameController.Player[player].transform.Translate(speed[player] * Time.deltaTime, 0, 0, Space.Self);
+                gameController.Player[player].transform.eulerAngles = new Vector3(0, -270, 0);
+                gameController.Player[player].transform.Translate(-playerMovingSpeed[player] * Time.deltaTime, 0, 0, Space.Self);
                 break;
             case MoveDirection.DOWN:
-                //game.Player[player].transform.Translate(0, 0, -speed[player] * Time.deltaTime, Space.Self);
-                gameController.Player[player].transform.Translate(-speed[player] * Time.deltaTime, 0, 0, Space.Self);
+                gameController.Player[player].transform.eulerAngles = new Vector3(0, -90, 0);
+                gameController.Player[player].transform.Translate(-playerMovingSpeed[player] * Time.deltaTime, 0, 0, Space.Self);
                 break;
         }
     }
@@ -251,7 +239,7 @@ public class Players : Base
     }
 
     // Check whether two GameObjects meets or not
-    private bool Meet(GameObject gameObject1, GameObject gameObject2)
+    public bool Meet(GameObject gameObject1, GameObject gameObject2)
     {
         float minDistance = 1f;
         return Mathf.Abs(gameObject1.transform.position.x - gameObject2.transform.position.x) <= minDistance

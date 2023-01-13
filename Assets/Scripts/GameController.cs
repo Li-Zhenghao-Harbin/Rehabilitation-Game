@@ -24,19 +24,19 @@ public class GameController : Base
     Shapes shapes;
     CardItems cardItems;
     // Timer
-    const float activeCardItemTimerInitialValue = 5f;
+    const float initActiveCardItemTimer = 5f;
     float activeCardItemTimer = 1f;
     // Log
     const int maxLogLength = 300;
-    // Timer
-    int minutes = 0;
-    float seconds = 0f;
     // Menu
     bool isShownMenu = false;
 
     // Use this for initialization
     void Start()
     {
+        // Set time
+        minutes = 0;
+        seconds = 0f;
         // Set game speed
         Time.timeScale = gameSpeed;
         // Set GameObjects
@@ -47,7 +47,7 @@ public class GameController : Base
         BtnMenu = GameObject.Find("BtnMenu").GetComponent<Button>();
         TxTimer = GameObject.Find("TxTimer").GetComponent<Text>();
         TxController = GameObject.Find("TxController").GetComponent<Text>();
-        TxController.text = "Controller - " + (gameControl == 0 ? "Keyboard" : "Sensor");
+        TxController.text = "Controller - " + (gameControl == GetGameControl(GameControl.KEYBOARD) ? "Keyboard" : "Sensor");
         // Set class
         players = gameObject.GetComponent<Players>();
         cards = gameObject.GetComponent<Cards>();
@@ -55,9 +55,9 @@ public class GameController : Base
         cardItems = gameObject.GetComponent<CardItems>();
         // Set players initial HP and GP
         players.SetMaxHp(player1, 20);
-        players.SetMaxHp(player2, 20);
+        players.SetMaxHp(player2, IsBoss() ? 50 : 20);
         players.SetHP(player1, 20);
-        players.SetHP(player2, 20);
+        players.SetHP(player2, IsBoss() ? 100 : 20);
         players.SetGP(player1, 0);
         players.SetGP(player2, 0);
         // Set onclick event
@@ -67,6 +67,7 @@ public class GameController : Base
         PnMenu.SetActive(false);
         PnGameOver = GameObject.Find("PnGameOver");
         PnGameOver.SetActive(false);
+
     }
 
     private void BtnMenuOnClick()
@@ -159,7 +160,7 @@ public class GameController : Base
         {
             GameOver(player2);
         }
-        if (players.GetHP(player2) == 0 || players.GetGP(player1) == Players.maxGp || Player[player2].transform.position.y < dropY)
+        if (players.GetHP(player2) == 0 || (!IsBoss() && players.GetGP(player1) == Players.maxGp) || Player[player2].transform.position.y < dropY)
         {
             GameOver(player1);
         }
@@ -184,21 +185,24 @@ public class GameController : Base
                 players.Move(player1, Players.MoveDirection.DOWN);
             }
             // Player2 moves
-            if (Input.GetKey(KeyCode.J))
+            if (!IsBoss())
             {
-                players.Move(player2, Players.MoveDirection.LEFT);
-            }
-            if (Input.GetKey(KeyCode.L))
-            {
-                players.Move(player2, Players.MoveDirection.RIGHT);
-            }
-            if (Input.GetKey(KeyCode.I))
-            {
-                players.Move(player2, Players.MoveDirection.UP);
-            }
-            if (Input.GetKey(KeyCode.K))
-            {
-                players.Move(player2, Players.MoveDirection.DOWN);
+                if (Input.GetKey(KeyCode.J))
+                {
+                    players.Move(player2, Players.MoveDirection.LEFT);
+                }
+                if (Input.GetKey(KeyCode.L))
+                {
+                    players.Move(player2, Players.MoveDirection.RIGHT);
+                }
+                if (Input.GetKey(KeyCode.I))
+                {
+                    players.Move(player2, Players.MoveDirection.UP);
+                }
+                if (Input.GetKey(KeyCode.K))
+                {
+                    players.Move(player2, Players.MoveDirection.DOWN);
+                }
             }
             // Player1 draws
             if (Input.GetKeyDown(KeyCode.E))
@@ -218,21 +222,24 @@ public class GameController : Base
                 cards.RemoveShapes(player1);
             }
             // Player2 draws
-            if (Input.GetKeyDown(KeyCode.O))
+            if (!IsBoss())
             {
-                shapes.AppendShape(player2, Shapes.TargetShape.SQUARE);
-            }
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                shapes.AppendShape(player2, Shapes.TargetShape.UPPER_TRIANGLE);
-            }
-            if (Input.GetKeyDown(KeyCode.LeftBracket))
-            {
-                shapes.AppendShape(player2, Shapes.TargetShape.LOWER_TRIANGLE);
-            }
-            if (Input.GetKeyDown(KeyCode.RightBracket))
-            {
-                cards.RemoveShapes(player2);
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    shapes.AppendShape(player2, Shapes.TargetShape.SQUARE);
+                }
+                if (Input.GetKeyDown(KeyCode.P))
+                {
+                    shapes.AppendShape(player2, Shapes.TargetShape.UPPER_TRIANGLE);
+                }
+                if (Input.GetKeyDown(KeyCode.LeftBracket))
+                {
+                    shapes.AppendShape(player2, Shapes.TargetShape.LOWER_TRIANGLE);
+                }
+                if (Input.GetKeyDown(KeyCode.RightBracket))
+                {
+                    cards.RemoveShapes(player2);
+                }
             }
         }
         // Generate CardItem
@@ -242,8 +249,8 @@ public class GameController : Base
         }
         else
         {
-            cardItems.ActiveCardItem();
-            activeCardItemTimer = activeCardItemTimerInitialValue;
+            cardItems.ActiveCardItem(IsBoss() ? 3 : 5);
+            activeCardItemTimer = initActiveCardItemTimer;
         }
     }
 }

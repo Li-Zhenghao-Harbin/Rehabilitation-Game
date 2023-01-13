@@ -69,9 +69,9 @@ public class Status : Base
         return freeze[player];
     }
 
-    public void SetFreeze(int player)
+    public void SetFreeze(int player, float freezeTime = 5f)
     {
-        freeze[player] = 5f;
+        freeze[player] = freezeTime;
     }
 
     public bool GetInfest(int player)
