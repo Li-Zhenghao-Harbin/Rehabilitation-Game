@@ -17,6 +17,10 @@ public class BossController : Base {
 
 	// Use this for initialization
 	void Start () {
+		if (bossTitle == GetBossTitle(BossTitle.TUTORIAL))
+        {
+			return;
+        }
 		// Set boss warning
 		TxBossWarning = GameObject.Find("TxBossWarning").GetComponent<Text>();
 		TxBossWarningSuggestion = GameObject.Find("TxBossWarningSuggestion").GetComponent<Text>();

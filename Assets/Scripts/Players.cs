@@ -110,7 +110,7 @@ public class Players : Base
     private void UpdateHPBar(int player)
     {
         // Set size of HP bar
-        int barWidth = ((IsBoss() && player == player2) ? maxBossBarWidth : maxBarWidth) * hp[player] / maxHp[player];
+        int barWidth = ((IsBoss() && bossTitle != GetBossTitle(BossTitle.TUTORIAL) && player == player2) ? maxBossBarWidth : maxBarWidth) * hp[player] / maxHp[player];
         RectTransform rectTransformImgPlayerHP = ImgPlayerHP[player].GetComponent<RectTransform>();
         rectTransformImgPlayerHP.sizeDelta = new Vector2(barWidth, barHeight);
         // Set position of HP bar

@@ -31,6 +31,9 @@ public class MainMenu : Base
     // Use this for initialization
     void Start()
 	{
+		// Reset parameters
+		gameControl = (int)GameControl.KEYBOARD;
+		gamePlayer = (int)GamePlayer.DOUBLE;
 		// Set GameObjects
 		PnWelcome = GameObject.Find("PnWelcome");
 		mainPanels.Add(PnWelcome);
@@ -70,14 +73,14 @@ public class MainMenu : Base
 			sb.Append("Single - ");
 			SetVisible(GameObject.Find("TxGameMode"), true);
 			SetVisible(GameObject.Find("BtnTutorial"), true);
-			SetVisible(GameObject.Find("BtnBoss"), true);
-			sb.Append(gameMode == GetGameMode(GameMode.TUTORIAL) ? "Tutorial" : "Boss");
+			SetVisible(GameObject.Find("BtnMedusa"), true);
+			sb.Append(bossTitle == GetBossTitle(BossTitle.TUTORIAL) ? "Tutorial" : "Medusa");
         } else
         {
 			sb.Append("Double");
 			SetVisible(GameObject.Find("TxGameMode"), false);
 			SetVisible(GameObject.Find("BtnTutorial"), false);
-			SetVisible(GameObject.Find("BtnBoss"), false);
+			SetVisible(GameObject.Find("BtnMedusa"), false);
 		}
 		GameObject.Find("TxReadyToPlay").GetComponent<Text>().text = sb.ToString();
     }
@@ -91,7 +94,7 @@ public class MainMenu : Base
 		GameObject.Find("BtnDoublePlayers").GetComponent<Button>().onClick.AddListener(DoublePlayersOnClick);
 		GameObject.Find("BtnSinglePlayer").GetComponent<Button>().onClick.AddListener(SinglePlayerOnClick);
 		GameObject.Find("BtnTutorial").GetComponent<Button>().onClick.AddListener(TutorialOnClick);
-		GameObject.Find("BtnBoss").GetComponent<Button>().onClick.AddListener(BossOnClick);
+		GameObject.Find("BtnMedusa").GetComponent<Button>().onClick.AddListener(BossMedusaOnClick);
 		GameObject.Find("BtnPlay").GetComponent<Button>().onClick.AddListener(PlayOnClick);
 	}
 
@@ -121,19 +124,25 @@ public class MainMenu : Base
 
 	private void TutorialOnClick()
     {
-		gameMode = GetGameMode(GameMode.TUTORIAL);
+		bossTitle = GetBossTitle(BossTitle.TUTORIAL);
 		UpdateSelection();
 	}
 
-	private void BossOnClick()
+	private void BossMedusaOnClick()
     {
-		gameMode = GetGameMode(GameMode.BOSS);
+		bossTitle = GetBossTitle(BossTitle.MEDUSA);
 		UpdateSelection();
 	}
 
 	private void PlayOnClick()
     {
-		SceneManager.LoadScene(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? "Game" : "Boss");
+		if (gamePlayer == GetGamePlayer(GamePlayer.SINGLE))
+        {
+			SceneManager.LoadScene(bossTitle == GetBossTitle(BossTitle.TUTORIAL) ? "Tutorial" : "Medusa");
+        } else
+        {
+			SceneManager.LoadScene("Game");
+        }
 	}
 
 	private void BtnHowToPlayOnClick()

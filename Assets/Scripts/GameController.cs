@@ -9,8 +9,9 @@ using UnityEngine.UI;
 public class GameController : Base
 {
     // GameObjects
-    public GameObject[] Player = new GameObject[2];
-    public Text[] TxPlayerLog = new Text[2];
+    public GameObject[] Player = new GameObject[playerCount];
+    public Text[] TxPlayerLog = new Text[playerCount];
+    Text[] TxPlayerStatus = new Text[playerCount];
     Button BtnMenu;
     Text TxTimer;
     Text TxController;
@@ -44,6 +45,9 @@ public class GameController : Base
         Player[player2] = GameObject.Find("Player2");
         TxPlayerLog[player1] = GameObject.Find("TxPlayer1Log").GetComponent<Text>();
         TxPlayerLog[player2] = GameObject.Find("TxPlayer2Log").GetComponent<Text>();
+        //TxPlayerStatus[player1] = GameObject.Find("TxPlayer1Status").GetComponent<Text>();
+        //TxPlayerStatus[player2] = GameObject.Find("TxPlayer2Status").GetComponent<Text>();
+        //TxPlayerStatus[player1].text = TxPlayerStatus[player2].text = "";
         BtnMenu = GameObject.Find("BtnMenu").GetComponent<Button>();
         TxTimer = GameObject.Find("TxTimer").GetComponent<Text>();
         TxController = GameObject.Find("TxController").GetComponent<Text>();
@@ -57,7 +61,7 @@ public class GameController : Base
         players.SetMaxHp(player1, 20);
         players.SetMaxHp(player2, IsBoss() ? 50 : 20);
         players.SetHP(player1, 20);
-        players.SetHP(player2, IsBoss() ? 100 : 20);
+        players.SetHP(player2, IsBoss() ? 50 : 20);
         players.SetGP(player1, 0);
         players.SetGP(player2, 0);
         // Set onclick event
@@ -90,7 +94,21 @@ public class GameController : Base
 
     private void BtnReStartOnClick()
     {
-        SceneManager.LoadScene("Game");
+        if (gamePlayer == GetGamePlayer(GamePlayer.DOUBLE))
+        {
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            if (bossTitle == GetBossTitle(BossTitle.TUTORIAL))
+            {
+                SceneManager.LoadScene("Tutorial");
+            }
+            else if (bossTitle == GetBossTitle(BossTitle.MEDUSA))
+            {
+                SceneManager.LoadScene("Medusa");
+            }
+        }
     }
 
     private void BtnExitOnClick()

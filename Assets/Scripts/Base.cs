@@ -17,7 +17,7 @@ public class Base : MonoBehaviour
 	public const float gameSpeed = 1f;
 	public static int gameControl = 0; // 0-keyboard, 1-sensors
 	public static int gamePlayer = 1; // 0-single, 1-double
-	public static int gameMode = 1; // 0-tutorial, 1-boss
+	public static int bossTitle = 1; // 0-tutorial, 1-medusa
 	public static bool showLog = true;
 
     public enum GameControl
@@ -42,25 +42,20 @@ public class Base : MonoBehaviour
 		return (int)gamePlayer;
     }
 
-	public enum GameMode
-    {
-		TUTORIAL = 0,
-		BOSS = 1
-    }
-
-	public int GetGameMode(GameMode gameMode)
-    {
-		return (int)gameMode;
-    }
-
 	public enum BossTitle
     {
-		Medusa = 0,
+		TUTORIAL = 0,
+		MEDUSA = 1,
+    }
+
+	public int GetBossTitle(BossTitle bossTitle)
+    {
+		return (int)bossTitle;
     }
 
 	public bool IsBoss()
     {
-		return gameMode == GetGameMode(GameMode.BOSS);
+		return gamePlayer == GetGamePlayer(GamePlayer.SINGLE);
 	}
 
 	public void SetVisible(GameObject gameObject, bool visible)
