@@ -28,6 +28,25 @@ public class Status : Base
     // Class
     Players players;
 
+    public void ResetStatus()
+    {
+        for (int p = 0; p < playerCount; p++)
+        {
+            isDuplicate[p] = false;
+            level[p] = 0;
+            isBlur[p] = false;
+            freeze[p] = 0;
+            isInfest[p] = false;
+            infestTimer[p] = 0;
+            infestStep[p] = 0;
+            isCounterspell[p] = false;
+            invincible[p] = 0;
+            isAvenge[p] = false;
+            curse[p] = 0;
+            pride[p] = 0;
+        }
+    }
+
     public bool GetDuplicate(int player)
     {
         return isDuplicate[player];

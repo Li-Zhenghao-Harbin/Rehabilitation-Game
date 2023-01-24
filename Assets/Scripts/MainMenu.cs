@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Text;
+using System.IO;
+using System;
 
 public class MainMenu : Base
 {
@@ -16,6 +18,8 @@ public class MainMenu : Base
 	GameObject PnAbout;
 	List<GameObject> mainPanels = new List<GameObject>();
 	Toggle TgLog;
+	// Config
+	string configPath;
 
 	// Enum panel target, used to indicate which panel to be actived
 	enum PanelTarget
@@ -28,9 +32,12 @@ public class MainMenu : Base
 		ABOUT = 4,
 	}
 
-    // Use this for initialization
-    void Start()
+	// Use this for initialization
+	void Start()
 	{
+		// Config
+		configPath = Application.dataPath + "/Data/config.txt";
+		ReadConfig();
 		// Reset parameters
 		gameControl = (int)GameControl.KEYBOARD;
 		gamePlayer = (int)GamePlayer.DOUBLE;
@@ -65,25 +72,26 @@ public class MainMenu : Base
 	}
 
 	private void UpdateSelection()
-    {
+	{
 		StringBuilder sb = new StringBuilder();
 		sb.Append(gameControl == GetGameControl(GameControl.KEYBOARD) ? "Keyboard - " : "Sensors - ");
 		if (gamePlayer == GetGamePlayer(GamePlayer.SINGLE))
-        {
+		{
 			sb.Append("Single - ");
 			SetVisible(GameObject.Find("TxGameMode"), true);
 			SetVisible(GameObject.Find("BtnTutorial"), true);
 			SetVisible(GameObject.Find("BtnMedusa"), true);
 			sb.Append(bossTitle == GetBossTitle(BossTitle.TUTORIAL) ? "Tutorial" : "Medusa");
-        } else
-        {
+		}
+		else
+		{
 			sb.Append("Double");
 			SetVisible(GameObject.Find("TxGameMode"), false);
 			SetVisible(GameObject.Find("BtnTutorial"), false);
 			SetVisible(GameObject.Find("BtnMedusa"), false);
 		}
 		GameObject.Find("TxReadyToPlay").GetComponent<Text>().text = sb.ToString();
-    }
+	}
 
 	private void BtnStartOnClick()
 	{
@@ -111,38 +119,39 @@ public class MainMenu : Base
 	}
 
 	private void DoublePlayersOnClick()
-    {
+	{
 		gamePlayer = GetGamePlayer(GamePlayer.DOUBLE);
 		UpdateSelection();
 	}
 
 	private void SinglePlayerOnClick()
-    {
+	{
 		gamePlayer = GetGamePlayer(GamePlayer.SINGLE);
 		UpdateSelection();
 	}
 
 	private void TutorialOnClick()
-    {
+	{
 		bossTitle = GetBossTitle(BossTitle.TUTORIAL);
 		UpdateSelection();
 	}
 
 	private void BossMedusaOnClick()
-    {
+	{
 		bossTitle = GetBossTitle(BossTitle.MEDUSA);
 		UpdateSelection();
 	}
 
 	private void PlayOnClick()
-    {
+	{
 		if (gamePlayer == GetGamePlayer(GamePlayer.SINGLE))
-        {
+		{
 			SceneManager.LoadScene(bossTitle == GetBossTitle(BossTitle.TUTORIAL) ? "Tutorial" : "Medusa");
-        } else
-        {
+		}
+		else
+		{
 			SceneManager.LoadScene("Game");
-        }
+		}
 	}
 
 	private void BtnHowToPlayOnClick()
@@ -160,17 +169,76 @@ public class MainMenu : Base
 	}
 
 	private void TgLogOnValueChanged(bool value)
-    {
+	{
 		Base.showLog = TgLog.isOn;
-    }
+	}
 
 	private void BtnAboutOnClick()
 	{
 		ActivePanel(PanelTarget.ABOUT);
 	}
 
+	private void ReadConfig()
+	{
+		if (!File.Exists(configPath))
+		{
+			SaveConfig();
+		}
+		else
+		{
+			try
+			{
+				string[] lines = File.ReadAllLines(configPath);
+				int n = lines.Length;
+				string[,] configs = new string[n, 2];
+				for (int i = 0; i < n; i++)
+				{
+					string[] lineValues = lines[i].Split('=');
+					if (lineValues[0] == "showLog")
+					{
+						showLog = Convert.ToBoolean(lineValues[1]);
+					}
+				}
+			}
+			catch
+			{
+
+			}
+		}
+		// C# 7.0
+		//if (!File.Exists(configPath))
+		//{
+		//	SaveConfig();
+		//}
+		//else
+		//{
+		//	string[] lines = File.ReadAllLines(configPath);
+		//	Dictionary<string, bool> configs = new Dictionary<string, bool>();
+		//	foreach (string s in lines)
+		//	{
+		//		string[] currentLine = s.Split('=');
+		//		configs.Add(currentLine[0], Convert.ToBoolean(currentLine[1]));
+		//	}
+		//	if (configs.TryGetValue("showLog", out bool configLog))
+		//	{
+		//		showLog = configLog;
+		//	}
+		//}
+	}
+
+	private void SaveConfig()
+	{
+		StreamWriter streamWriter;
+		FileInfo fileInfo = new FileInfo(configPath);
+		streamWriter = fileInfo.CreateText();
+		streamWriter.WriteLine("showLog=" + showLog.ToString());
+		streamWriter.Close();
+		streamWriter.Dispose();
+	}
+
 	private void BtnExitOnClick()
 	{
+		SaveConfig();
 		Application.Quit();
 	}
 

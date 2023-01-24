@@ -20,7 +20,8 @@ public class Base : MonoBehaviour
 	public static int bossTitle = 1; // 0-tutorial, 1-medusa
 	public static bool showLog = true;
 
-    public enum GameControl
+
+	public enum GameControl
     {
         KEYBOARD = 0,
         SENSORS = 1
@@ -67,7 +68,7 @@ public class Base : MonoBehaviour
     // Use this for initialization
     void Start()
 	{
-
+		
 	}
 
 	// Update is called once per frame

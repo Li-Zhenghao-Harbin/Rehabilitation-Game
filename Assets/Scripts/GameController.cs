@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Timers;
 using UnityEngine;
@@ -11,7 +13,6 @@ public class GameController : Base
     // GameObjects
     public GameObject[] Player = new GameObject[playerCount];
     public Text[] TxPlayerLog = new Text[playerCount];
-    Text[] TxPlayerStatus = new Text[playerCount];
     Button BtnMenu;
     Text TxTimer;
     Text TxController;
@@ -24,6 +25,7 @@ public class GameController : Base
     Cards cards;
     Shapes shapes;
     CardItems cardItems;
+    Status status;
     // Timer
     const float initActiveCardItemTimer = 5f;
     float activeCardItemTimer = 1f;
@@ -31,10 +33,15 @@ public class GameController : Base
     const int maxLogLength = 300;
     // Menu
     bool isShownMenu = false;
+    // Data
+    string gameDataPath; // game data path
+    bool gameDataSaved = false;
 
     // Use this for initialization
     void Start()
     {
+        // Data
+        gameDataPath = Application.dataPath + "/Data/data.txt";
         // Set time
         minutes = 0;
         seconds = 0f;
@@ -45,9 +52,6 @@ public class GameController : Base
         Player[player2] = GameObject.Find("Player2");
         TxPlayerLog[player1] = GameObject.Find("TxPlayer1Log").GetComponent<Text>();
         TxPlayerLog[player2] = GameObject.Find("TxPlayer2Log").GetComponent<Text>();
-        //TxPlayerStatus[player1] = GameObject.Find("TxPlayer1Status").GetComponent<Text>();
-        //TxPlayerStatus[player2] = GameObject.Find("TxPlayer2Status").GetComponent<Text>();
-        //TxPlayerStatus[player1].text = TxPlayerStatus[player2].text = "";
         BtnMenu = GameObject.Find("BtnMenu").GetComponent<Button>();
         TxTimer = GameObject.Find("TxTimer").GetComponent<Text>();
         TxController = GameObject.Find("TxController").GetComponent<Text>();
@@ -57,6 +61,9 @@ public class GameController : Base
         cards = gameObject.GetComponent<Cards>();
         shapes = gameObject.GetComponent<Shapes>();
         cardItems = gameObject.GetComponent<CardItems>();
+        status = gameObject.GetComponent<Status>();
+        // Reset status
+        status.ResetStatus();
         // Set players initial HP and GP
         players.SetMaxHp(player1, 20);
         players.SetMaxHp(player2, IsBoss() ? 50 : 20);
@@ -71,7 +78,6 @@ public class GameController : Base
         PnMenu.SetActive(false);
         PnGameOver = GameObject.Find("PnGameOver");
         PnGameOver.SetActive(false);
-
     }
 
     private void BtnMenuOnClick()
@@ -157,6 +163,44 @@ public class GameController : Base
         return sb.ToString();
     }
 
+    private void SaveData(int winner)
+    {
+        try
+        {
+            StreamWriter streamWriter;
+            FileInfo fileInfo = new FileInfo(gameDataPath);
+            if (!File.Exists(gameDataPath))
+            {
+                streamWriter = fileInfo.CreateText();
+            }
+            else
+            {
+                streamWriter = fileInfo.AppendText();
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.Append(DateTime.Now.ToLocalTime().ToShortDateString()); sb.Append(";");
+            sb.Append(minutes * 60 + (int)seconds); sb.Append(";");
+            sb.Append(gamePlayer); sb.Append(";");
+            sb.Append(gameControl); sb.Append(";");
+            sb.Append(IsBoss() ? bossTitle : -1); sb.Append(";");
+            sb.Append(Cards.playerFoundCardsCount[player1]); sb.Append(";");
+            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Cards.playerFoundCardsCount[player2] : -1); sb.Append(";");
+            sb.Append(Cards.playerUsedCardsCount[player1]); sb.Append(";");
+            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Cards.playerUsedCardsCount[player2] : -1); sb.Append(";");
+            sb.Append(Shapes.playerDrewShapesCount[player1]); sb.Append(";");
+            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Shapes.playerDrewShapesCount[player2] : -1); sb.Append(";");
+            sb.Append(winner);
+            streamWriter.WriteLine(sb.ToString());
+            streamWriter.Close();
+            streamWriter.Dispose();
+        }
+        catch
+        {
+
+        }
+        gameDataSaved = true;
+    }
+
     private void GameOver(int winner)
     {
         PnGameOver.SetActive(true);
@@ -166,6 +210,10 @@ public class GameController : Base
         GameObject.Find("PnGameOver/BtnReStart").GetComponent<Button>().onClick.AddListener(BtnReStartOnClick);
         GameObject.Find("PnGameOver/BtnExit").GetComponent<Button>().onClick.AddListener(BtnExitOnClick);
         Time.timeScale = 0f;
+        if (!gameDataSaved)
+        {
+            SaveData(winner);
+        }
     }
 
     // Update is called once per frame
