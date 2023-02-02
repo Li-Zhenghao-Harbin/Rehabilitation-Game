@@ -36,7 +36,16 @@ public class MainMenu : Base
 	void Start()
 	{
 		// Config
-		configPath = Application.dataPath + "/Data/config.txt";
+		string tempPath = Application.dataPath + "/Data/config.txt";
+		if (File.Exists(tempPath))
+		{
+			configPath = tempPath;
+		}
+		else
+		{
+			Application.Quit();
+			return;
+		}
 		ReadConfig();
 		// Reset parameters
 		gameControl = (int)GameControl.KEYBOARD;
@@ -238,8 +247,8 @@ public class MainMenu : Base
 
 	private void BtnExitOnClick()
 	{
-		SaveConfig();
-		Application.Quit();
+        SaveConfig();
+        Application.Quit();
 	}
 
 	// Update is called once per frame
