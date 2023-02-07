@@ -61,14 +61,14 @@ public class SensorController : Base
         SetVisible(pnPlayerPoints[1], false);
         // Set particular points
         playerBeginParticularPoints[player1] = GameObject.Find("Canvas/PnPlayer1Points/Player1Point0");
-
+        playerBeginParticularPoints[player2] = GameObject.Find("Canvas/PnPlayer2Points/Player2Point0");
         for (int i = 1; i <= particularPointsCount; i++)
         {
             playerParticularPoints[player1, i - 1] = GameObject.Find("Canvas/PnPlayer1Points/Player1Point" + i);
+            playerParticularPoints[player2, i - 1] = GameObject.Find("Canvas/PnPlayer2Points/Player2Point" + i);
         }
         playerParticularPointers[player1] = GameObject.Find("Canvas/PnPlayer1Points/Player1Pointer");
-
-
+        playerParticularPointers[player2] = GameObject.Find("Canvas/PnPlayer2Points/Player2Pointer");
     }
 
 
@@ -249,7 +249,7 @@ public class SensorController : Base
             }
             if (Input.GetKeyUp(KeyCode.L))
             {
-                // CheckingPoints(player2);
+                CheckingPoints(player2);
             }
             SensorMoving(player1);
             SensorMoving(player2);
@@ -259,13 +259,21 @@ public class SensorController : Base
                 !ReferenceEquals(message, SerialController.SERIAL_DEVICE_CONNECTED) &&
                 !ReferenceEquals(message, SerialController.SERIAL_DEVICE_DISCONNECTED))
             {
-                convertedPositionX[player1] = GetConvertedDataFromSerial(message)[0];
-                convertedPositionZ[player1] = GetConvertedDataFromSerial(message)[1];
-                convertedUIPositionX[player1] = GetConvertedUIDataFromSerial(message)[0];
-                convertedUIPositionY[player1] = GetConvertedUIDataFromSerial(message)[1];
+                convertedPositionX[player1] = GetConvertedDataFromSerial(message.Split('|')[player1])[0];
+                convertedPositionZ[player1] = GetConvertedDataFromSerial(message.Split('|')[player1])[1];
+                convertedUIPositionX[player1] = GetConvertedUIDataFromSerial(message.Split('|')[player1])[0];
+                convertedUIPositionY[player1] = GetConvertedUIDataFromSerial(message.Split('|')[player1])[1];
+                convertedPositionX[player2] = GetConvertedDataFromSerial(message.Split('|')[player2])[0];
+                convertedPositionZ[player2] = GetConvertedDataFromSerial(message.Split('|')[player2])[1];
+                convertedUIPositionX[player2] = GetConvertedUIDataFromSerial(message.Split('|')[player2])[0];
+                convertedUIPositionY[player2] = GetConvertedUIDataFromSerial(message.Split('|')[player2])[1];
                 if (detectActive[player1])
                 {
                     playerParticularPointers[player1].GetComponent<RectTransform>().localPosition = new Vector3(convertedUIPositionX[player1], convertedUIPositionY[player1], 0);
+                }
+                if (detectActive[player2])
+                {
+                    playerParticularPointers[player2].GetComponent<RectTransform>().localPosition = new Vector3(convertedUIPositionX[player2], convertedUIPositionY[player2], 0);
                 }
             }
         }

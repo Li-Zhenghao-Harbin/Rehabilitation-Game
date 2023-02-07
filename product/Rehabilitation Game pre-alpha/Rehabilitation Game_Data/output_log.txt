@@ -2,9 +2,9 @@ Initialize engine version: 5.5.6f1 (3fb31a95adee)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.1]
-    Renderer: Intel(R) UHD Graphics 620 (ID=0x5917)
-    Vendor:   Intel
-    VRAM:     4203 MB
+    Renderer: NVIDIA GeForce GTX 1060 (ID=0x1c20)
+    Vendor:   NVIDIA
+    VRAM:     6054 MB
     Driver:   27.21.14.6140
 Begin MonoManager ReloadAssembly
 Platform assembly: D:\Rehabilitation Game\product\Rehabilitation Game pre-alpha\Rehabilitation Game_Data\Managed\UnityEngine.dll (this message is harmless)
@@ -17,39 +17,26 @@ Platform assembly: D:\Rehabilitation Game\product\Rehabilitation Game pre-alpha\
 Loading D:\Rehabilitation Game\product\Rehabilitation Game pre-alpha\Rehabilitation Game_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: D:\Rehabilitation Game\product\Rehabilitation Game pre-alpha\Rehabilitation Game_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
 Loading D:\Rehabilitation Game\product\Rehabilitation Game pre-alpha\Rehabilitation Game_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  1.800 seconds
+- Completed reload, in  0.688 seconds
 Platform assembly: D:\Rehabilitation Game\product\Rehabilitation Game pre-alpha\Rehabilitation Game_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\Rehabilitation Game\product\Rehabilitation Game pre-alpha\Rehabilitation Game_Data\Managed\System.dll (this message is harmless)
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 3240x2160 60Hz; virtual: 3240x2160 at 0,0
 <RI> Initialized touch support.
-UnloadTime: 18.144800 ms
+UnloadTime: 1.286900 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 23a8 -> priority: 1 
-  Thread -> id: 457c -> priority: 1 
-NullReferenceException: Object reference not set to an instance of an object
-  at Base.SetVisible (UnityEngine.GameObject gameObject, Boolean visible) [0x00000] in <filename unknown>:0 
-  at MainMenu.UpdateSelection () [0x00000] in <filename unknown>:0 
-  at MainMenu.BtnHowToPlayOnClick () [0x00000] in <filename unknown>:0 
-  at UnityEngine.Events.InvokableCall.Invoke (System.Object[] args) [0x00000] in <filename unknown>:0 
-  at UnityEngine.Events.InvokableCallList.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
-  at UnityEngine.Events.UnityEventBase.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
-  at UnityEngine.Events.UnityEvent.Invoke () [0x00000] in <filename unknown>:0 
-  at UnityEngine.UI.Button.Press () [0x00000] in <filename unknown>:0 
-  at UnityEngine.UI.Button.OnPointerClick (UnityEngine.EventSystems.PointerEventData eventData) [0x00000] in <filename unknown>:0 
-  at UnityEngine.EventSystems.ExecuteEvents.Execute (IPointerClickHandler handler, UnityEngine.EventSystems.BaseEventData eventData) [0x00000] in <filename unknown>:0 
-  at UnityEngine.EventSystems.ExecuteEvents.Execute[IPointerClickHandler] (UnityEngine.GameObject target, UnityEngine.EventSystems.BaseEventData eventData, UnityEngine.EventSystems.EventFunction`1 functor) [0x00000] in <filename unknown>:0 
-UnityEngine.DebugLogHandler:Internal_LogException(Exception, Object)
-UnityEngine.DebugLogHandler:LogException(Exception, Object)
-UnityEngine.Logger:LogException(Exception, Object)
-UnityEngine.Debug:LogException(Exception)
-UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1)
-UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData)
-UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent(Int32)
-UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent()
-UnityEngine.EventSystems.StandaloneInputModule:Process()
-UnityEngine.EventSystems.EventSystem:Update()
- 
-(Filename:  Line: -1)
+  Thread -> id: 138c -> priority: 1 
+  Thread -> id: 2820 -> priority: 1 
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.291200 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 1447.
+Total: 0.442500 ms (FindLiveObjects: 0.069100 ms CreateObjectMapping: 0.012400 ms MarkObjects: 0.345400 ms  DeleteObjects: 0.013600 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 48.473297 ms
+
+Unloading 54 unused Assets to reduce memory usage. Loaded Objects now: 444.
+Total: 0.775100 ms (FindLiveObjects: 0.051300 ms CreateObjectMapping: 0.017600 ms MarkObjects: 0.490700 ms  DeleteObjects: 0.214500 ms)
 
