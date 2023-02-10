@@ -83,6 +83,10 @@ public class GameController : Base
     private void BtnMenuOnClick()
     {
         Time.timeScale = (isShownMenu = !isShownMenu) ? 0f : gameSpeed;
+        if (bossTitle == GetBossTitle(BossTitle.TUTORIAL))
+        {
+            SetVisible(GameObject.Find("PnTutorial"), false);
+        }
         PnMenu.SetActive(isShownMenu);
         if (isShownMenu)
         {

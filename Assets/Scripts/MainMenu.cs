@@ -166,7 +166,6 @@ public class MainMenu : Base
 	private void BtnHowToPlayOnClick()
 	{
 		ActivePanel(PanelTarget.HOWTOPLAY);
-		UpdateSelection();
 	}
 
 	private void BtnOptionsOnClick()

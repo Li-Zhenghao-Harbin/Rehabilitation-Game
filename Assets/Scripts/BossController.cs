@@ -22,8 +22,11 @@ public class BossController : Base {
 			return;
         }
 		// Set boss warning
-		TxBossWarning = GameObject.Find("TxBossWarning").GetComponent<Text>();
-		TxBossWarningSuggestion = GameObject.Find("TxBossWarningSuggestion").GetComponent<Text>();
+		if (bossTitle != GetBossTitle(BossTitle.TUTORIAL))
+        {
+			TxBossWarning = GameObject.Find("TxBossWarning").GetComponent<Text>();
+			TxBossWarningSuggestion = GameObject.Find("TxBossWarningSuggestion").GetComponent<Text>();
+        }
 		// Set buff
 		PnPlayerBuffs[player1] = GameObject.Find("PnPlayerBuff1");
 		PnPlayerBuffs[player2] = GameObject.Find("PnPlayerBuff2");

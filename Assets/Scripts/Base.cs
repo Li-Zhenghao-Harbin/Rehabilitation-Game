@@ -15,7 +15,7 @@ public class Base : MonoBehaviour
 	public float seconds = 0f;
 	// Settings
 	public const float gameSpeed = 1f;
-	public static int gameControl = 1; // 0-keyboard, 1-sensors
+	public static int gameControl = 0; // 0-keyboard, 1-sensors
 	public static int gamePlayer = 1; // 0-single, 1-double
 	public static int bossTitle = 1; // 0-tutorial, 1-medusa
 	public static bool showLog = true;
