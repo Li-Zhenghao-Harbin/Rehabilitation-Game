@@ -19,7 +19,9 @@ public class Base : MonoBehaviour
 	public static int gamePlayer = 1; // 0-single, 1-double
 	public static int bossTitle = 1; // 0-tutorial, 1-medusa
 	public static bool showLog = true;
-
+	// Output
+	public const string gameDataSpliter = ";";
+	public const string playerMoveDistanceReserveDigits = "0.00";
 
 	public enum GameControl
     {

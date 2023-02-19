@@ -30,6 +30,8 @@ public class Players : Base
     Cards cards;
     CardItems cardItems;
     Status status;
+    // Statics
+    public static float[] playerMoveDistance = new float[playerCount];
 
     public enum MoveDirection
     {
@@ -217,6 +219,7 @@ public class Players : Base
                 gameController.Player[player].transform.Translate(-playerMovingSpeed[player] * Time.deltaTime, 0, 0, Space.Self);
                 break;
         }
+        playerMoveDistance[player] += 0.01f;
     }
 
     // Push the opponent

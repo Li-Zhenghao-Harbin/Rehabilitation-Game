@@ -19,7 +19,7 @@ public class GameController : Base
     GameObject PnMenu;
     GameObject PnGameOver;
     // Players
-    const float dropY = -5f;
+    const float dropY = -5f; // player lose the game if y under the value
     // Class
     Players players;
     Cards cards;
@@ -36,10 +36,13 @@ public class GameController : Base
     // Data
     string gameDataPath; // game data path
     bool gameDataSaved = false;
+    // Game
+    public static bool end = false;
 
     // Use this for initialization
     void Start()
     {
+        end = false;
         // Data
         gameDataPath = Application.dataPath + "/Data/data.txt";
         // Set time
@@ -158,12 +161,14 @@ public class GameController : Base
         sb.Append("Player");
         sb.AppendLine((player + 1).ToString());
         sb.AppendLine();
-        sb.Append("Found Cards\t");
+        sb.Append("Found Cards\t\t");
         sb.AppendLine(Cards.playerFoundCardsCount[player].ToString());
         sb.Append("Used Cards\t\t");
         sb.AppendLine(Cards.playerUsedCardsCount[player].ToString());
-        sb.Append("Drew Shapes\t");
+        sb.Append("Drew Shapes\t\t");
         sb.AppendLine(Shapes.playerDrewShapesCount[player].ToString());
+        sb.Append("Moved Distance\t\t");
+        sb.AppendLine(Players.playerMoveDistance[player].ToString(playerMoveDistanceReserveDigits));
         return sb.ToString();
     }
 
@@ -182,17 +187,19 @@ public class GameController : Base
                 streamWriter = fileInfo.AppendText();
             }
             StringBuilder sb = new StringBuilder();
-            sb.Append(DateTime.Now.ToLocalTime().ToShortDateString()); sb.Append(";");
-            sb.Append(minutes * 60 + (int)seconds); sb.Append(";");
-            sb.Append(gamePlayer); sb.Append(";");
-            sb.Append(gameControl); sb.Append(";");
-            sb.Append(IsBoss() ? bossTitle : -1); sb.Append(";");
-            sb.Append(Cards.playerFoundCardsCount[player1]); sb.Append(";");
-            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Cards.playerFoundCardsCount[player2] : -1); sb.Append(";");
-            sb.Append(Cards.playerUsedCardsCount[player1]); sb.Append(";");
-            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Cards.playerUsedCardsCount[player2] : -1); sb.Append(";");
-            sb.Append(Shapes.playerDrewShapesCount[player1]); sb.Append(";");
-            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Shapes.playerDrewShapesCount[player2] : -1); sb.Append(";");
+            sb.Append(DateTime.Now.ToLocalTime().ToShortDateString()); sb.Append(gameDataSpliter);
+            sb.Append(minutes * 60 + (int)seconds); sb.Append(gameDataSpliter);
+            sb.Append(gamePlayer); sb.Append(gameDataSpliter);
+            sb.Append(gameControl); sb.Append(gameDataSpliter);
+            sb.Append(IsBoss() ? bossTitle : -1); sb.Append(gameDataSpliter);
+            sb.Append(Cards.playerFoundCardsCount[player1]); sb.Append(gameDataSpliter);
+            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Cards.playerFoundCardsCount[player2] : -1); sb.Append(gameDataSpliter);
+            sb.Append(Cards.playerUsedCardsCount[player1]); sb.Append(gameDataSpliter);
+            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Cards.playerUsedCardsCount[player2] : -1); sb.Append(gameDataSpliter);
+            sb.Append(Shapes.playerDrewShapesCount[player1]); sb.Append(gameDataSpliter);
+            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Shapes.playerDrewShapesCount[player2] : -1); sb.Append(gameDataSpliter);
+            sb.Append(Players.playerMoveDistance[player1].ToString(playerMoveDistanceReserveDigits)); sb.Append(gameDataSpliter);
+            sb.Append(gamePlayer == GetGamePlayer(GamePlayer.DOUBLE) ? Players.playerMoveDistance[player2] : -1); sb.Append(gameDataSpliter);
             sb.Append(winner);
             streamWriter.WriteLine(sb.ToString());
             streamWriter.Close();
@@ -218,6 +225,7 @@ public class GameController : Base
         {
             SaveData(winner);
         }
+        end = true;
     }
 
     // Update is called once per frame
@@ -233,6 +241,10 @@ public class GameController : Base
         if (players.GetHP(player2) == 0 || (!IsBoss() && players.GetGP(player1) == Players.maxGp) || Player[player2].transform.position.y < dropY)
         {
             GameOver(player1);
+        }
+        if (end)
+        {
+            return;
         }
         // Controller
         if (gameControl == GetGameControl(GameControl.KEYBOARD)) // Keyboard
