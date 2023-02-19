@@ -44,7 +44,7 @@ public class Medusa : BossController
 	private void SetMedusaPosition(MedusaPosition medusaPosition)
 	{
 		this.medusaPosition = (int)medusaPosition;
-
+		SetArrowRotation(medusaPosition);
 	}
 
 	private int GetMedusaPosition(MedusaPosition medusaPosition)
@@ -105,6 +105,22 @@ public class Medusa : BossController
 	{
 		TxBossPosition.text = message;
 		TxBossPosition.transform.localPosition = vector2;
+	}
+
+	private void SetArrowRotation(MedusaPosition medusaPosition)
+    {
+		switch (medusaPosition)
+        {
+			case MedusaPosition.LEFT:
+				Arrow.transform.eulerAngles = new Vector3(0, -90, 0.3f);
+				break;
+			case MedusaPosition.TOP:
+				Arrow.transform.eulerAngles = new Vector3(0, 0, 0);
+				break;
+			case MedusaPosition.RIGHT:
+				Arrow.transform.eulerAngles = new Vector3(0, 90, 0.3f);
+				break;
+		}
 	}
 
 	// Medusa moves
