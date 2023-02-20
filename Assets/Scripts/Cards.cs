@@ -143,6 +143,8 @@ public class Cards : Base
         2,
         1
     };
+    const int arrangeCardY = 125;
+    const int arrangeCardCriticalValueY = 50;
     // GameObjects
     Image[,] ImgPlayerCards = new Image[playerCount, maxCardsCount];
     // Class
@@ -232,6 +234,24 @@ public class Cards : Base
         }
         playerCards[player, newCardLocation] = cardIndex;
         ImgPlayerCards[player, newCardLocation].sprite = Resources.Load((cardIndex + 1).ToString(), typeof(Sprite)) as Sprite;
+        ArrangeCards(player);
+    }
+
+    public void ArrangeCards(int player)
+    {
+        for (int i = 0; i < maxCardsCount; i++)
+        {
+            var v = ImgPlayerCards[player, i].transform.position;
+            if (playerCards[player, i] == -1 && v.y > arrangeCardCriticalValueY)
+            {
+                v.y -= arrangeCardY;
+            }
+            if (playerCards[player, i] != -1 && v.y < arrangeCardCriticalValueY)
+            {
+                v.y += arrangeCardY;
+            }
+            ImgPlayerCards[player, i].transform.position = v;
+        }
     }
 
     // Player try to use cards after drawing a shape
@@ -261,6 +281,7 @@ public class Cards : Base
             playerCards[player, index] = -1;
             ImgPlayerCards[player, index].sprite = null;
         }
+        ArrangeCards(player);
     }
 
     // Remove drawn shapes

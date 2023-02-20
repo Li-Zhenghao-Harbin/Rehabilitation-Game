@@ -65,6 +65,9 @@ public class GameController : Base
         shapes = gameObject.GetComponent<Shapes>();
         cardItems = gameObject.GetComponent<CardItems>();
         status = gameObject.GetComponent<Status>();
+        // Set UI
+        cards.ArrangeCards(player1);
+        cards.ArrangeCards(player2);
         // Reset status
         status.ResetStatus();
         // Set players initial HP and GP
