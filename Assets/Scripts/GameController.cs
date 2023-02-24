@@ -328,14 +328,17 @@ public class GameController : Base
             }
         }
         // Generate CardItem
-        if (activeCardItemTimer > 0)
+        if (bossTitle != GetBossTitle(BossTitle.TUTORIAL))
         {
-            activeCardItemTimer -= Time.deltaTime;
-        }
-        else
-        {
-            cardItems.ActiveCardItem(IsBoss() ? 3 : 5);
-            activeCardItemTimer = initActiveCardItemTimer;
+            if (activeCardItemTimer > 0)
+            {
+                activeCardItemTimer -= Time.deltaTime;
+            }
+            else
+            {
+                cardItems.ActiveCardItem(IsBoss() ? 3 : 5);
+                activeCardItemTimer = initActiveCardItemTimer;
+            }
         }
     }
 }

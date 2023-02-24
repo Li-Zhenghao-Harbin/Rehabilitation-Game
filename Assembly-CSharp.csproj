@@ -68,6 +68,7 @@
      <Compile Include="Assets\Scripts\SensorController.cs" />
      <Compile Include="Assets\Scripts\Shapes.cs" />
      <Compile Include="Assets\Scripts\Status.cs" />
+     <Compile Include="Assets\Scripts\Tutorial.cs" />
      <None Include="Assets\Data\data.txt" />
      <None Include="Assets\Data\config.txt" />
  <Reference Include="UnityEngine.UI">

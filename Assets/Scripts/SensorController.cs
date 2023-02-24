@@ -255,6 +255,11 @@ public class SensorController : Base
             SensorMoving(player2);
             // Get data from serial port
             string message = serialController.ReadSerialMessage();
+            // debug
+            if (message != null)
+            {
+                Debug.Log(message);
+            }
             if (message != null &&
                 !ReferenceEquals(message, SerialController.SERIAL_DEVICE_CONNECTED) &&
                 !ReferenceEquals(message, SerialController.SERIAL_DEVICE_DISCONNECTED))
