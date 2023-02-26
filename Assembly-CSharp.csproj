@@ -57,6 +57,8 @@
      <Compile Include="Assets\Ardity\Scripts\Threads\SerialThread.cs" />
      <Compile Include="Assets\Ardity\Scripts\Threads\SerialThreadCustomDelimiter.cs" />
      <Compile Include="Assets\Ardity\Scripts\Threads\SerialThreadLines.cs" />
+     <Compile Include="Assets\Scripts\AlwaysAudio.cs" />
+     <Compile Include="Assets\Scripts\AudioController.cs" />
      <Compile Include="Assets\Scripts\Base.cs" />
      <Compile Include="Assets\Scripts\BossController.cs" />
      <Compile Include="Assets\Scripts\CardItems.cs" />
