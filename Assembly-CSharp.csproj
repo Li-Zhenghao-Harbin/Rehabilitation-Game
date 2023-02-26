@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\BossController.cs" />
      <Compile Include="Assets\Scripts\CardItems.cs" />
      <Compile Include="Assets\Scripts\Cards.cs" />
+     <Compile Include="Assets\Scripts\Crossroads.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Medusa.cs" />

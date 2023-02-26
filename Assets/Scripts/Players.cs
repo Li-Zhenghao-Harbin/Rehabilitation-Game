@@ -23,6 +23,8 @@ public class Players : Base
     const int barPadding = 10;
     const int hpBarY = 0;
     const int gpBarY = -35;
+    // Meet
+    const float minDistance = 1f;
     // Push
     const float pushDistance = 2f;
     // Class
@@ -242,12 +244,12 @@ public class Players : Base
     }
 
     // Check whether two GameObjects meets or not
-    public bool Meet(GameObject gameObject1, GameObject gameObject2)
+    public bool Meet(GameObject gameObject1, GameObject gameObject2, float distance = minDistance)
     {
-        float minDistance = 1f;
-        return Mathf.Abs(gameObject1.transform.position.x - gameObject2.transform.position.x) <= minDistance
-            && Mathf.Abs(gameObject1.transform.position.z - gameObject2.transform.position.z) <= minDistance
-            && Mathf.Abs(gameObject1.transform.position.y - gameObject2.transform.position.y) <= minDistance;
+
+        return Mathf.Abs(gameObject1.transform.position.x - gameObject2.transform.position.x) <= distance
+            && Mathf.Abs(gameObject1.transform.position.z - gameObject2.transform.position.z) <= distance
+            && Mathf.Abs(gameObject1.transform.position.y - gameObject2.transform.position.y) <= distance;
     }
 
     // Search cards when moving

@@ -87,17 +87,28 @@ public class MainMenu : Base
 		if (gamePlayer == GetGamePlayer(GamePlayer.SINGLE))
 		{
 			sb.Append("Single - ");
+			// Game mode
 			SetVisible(GameObject.Find("TxGameMode"), true);
 			SetVisible(GameObject.Find("BtnTutorial"), true);
 			SetVisible(GameObject.Find("BtnMedusa"), true);
+			// Map
+			SetVisible(GameObject.Find("TxMap"), false);
+			SetVisible(GameObject.Find("BtnForest"), false);
+			SetVisible(GameObject.Find("BtnCrossroads"), false);
 			sb.Append(bossTitle == GetBossTitle(BossTitle.TUTORIAL) ? "Tutorial" : "Medusa");
 		}
 		else
 		{
-			sb.Append("Double");
+			sb.Append("Double - ");
+			// Game mode
 			SetVisible(GameObject.Find("TxGameMode"), false);
 			SetVisible(GameObject.Find("BtnTutorial"), false);
 			SetVisible(GameObject.Find("BtnMedusa"), false);
+			// Map
+			SetVisible(GameObject.Find("TxMap"), true);
+			SetVisible(GameObject.Find("BtnForest"), true);
+			SetVisible(GameObject.Find("BtnCrossroads"), true);
+			sb.Append(map == GetMap(Map.FOREST) ? "Forest" : "Crossroads");
 		}
 		GameObject.Find("TxReadyToPlay").GetComponent<Text>().text = sb.ToString();
 	}
@@ -105,13 +116,24 @@ public class MainMenu : Base
 	private void BtnStartOnClick()
 	{
 		ActivePanel(PanelTarget.START);
+		// Initial visible
+		SetVisible(GameObject.Find("TxMap"), true);
+		SetVisible(GameObject.Find("BtnForest"), true);
+		SetVisible(GameObject.Find("BtnCrossroads"), true);
 		// Set onClick events
+		// Game control
 		GameObject.Find("BtnKeyboard").GetComponent<Button>().onClick.AddListener(KeyboardOnClick);
 		GameObject.Find("BtnSensors").GetComponent<Button>().onClick.AddListener(SensorsOnClick);
+		// Game player
 		GameObject.Find("BtnDoublePlayers").GetComponent<Button>().onClick.AddListener(DoublePlayersOnClick);
 		GameObject.Find("BtnSinglePlayer").GetComponent<Button>().onClick.AddListener(SinglePlayerOnClick);
+		// Game mode
 		GameObject.Find("BtnTutorial").GetComponent<Button>().onClick.AddListener(TutorialOnClick);
 		GameObject.Find("BtnMedusa").GetComponent<Button>().onClick.AddListener(BossMedusaOnClick);
+		// Map
+		GameObject.Find("BtnForest").GetComponent<Button>().onClick.AddListener(MapForestOnClick);
+		GameObject.Find("BtnCrossroads").GetComponent<Button>().onClick.AddListener(MapCrossroadsOnClick);
+		// Play
 		GameObject.Find("BtnPlay").GetComponent<Button>().onClick.AddListener(PlayOnClick);
 	}
 
@@ -151,6 +173,18 @@ public class MainMenu : Base
 		UpdateSelection();
 	}
 
+	private void MapForestOnClick()
+	{
+		map = GetMap(Map.FOREST);
+		UpdateSelection();
+	}
+
+	private void MapCrossroadsOnClick()
+	{
+		map = GetMap(Map.CROSSROADS);
+		UpdateSelection();
+	}
+
 	private void PlayOnClick()
 	{
 		if (gamePlayer == GetGamePlayer(GamePlayer.SINGLE))
@@ -159,7 +193,7 @@ public class MainMenu : Base
 		}
 		else
 		{
-			SceneManager.LoadScene("Game");
+			SceneManager.LoadScene(map == GetMap(Map.FOREST) ? "Forest" : "Crossroads");
 		}
 	}
 
@@ -213,25 +247,6 @@ public class MainMenu : Base
 
 			}
 		}
-		// C# 7.0
-		//if (!File.Exists(configPath))
-		//{
-		//	SaveConfig();
-		//}
-		//else
-		//{
-		//	string[] lines = File.ReadAllLines(configPath);
-		//	Dictionary<string, bool> configs = new Dictionary<string, bool>();
-		//	foreach (string s in lines)
-		//	{
-		//		string[] currentLine = s.Split('=');
-		//		configs.Add(currentLine[0], Convert.ToBoolean(currentLine[1]));
-		//	}
-		//	if (configs.TryGetValue("showLog", out bool configLog))
-		//	{
-		//		showLog = configLog;
-		//	}
-		//}
 	}
 
 	private void SaveConfig()
@@ -246,8 +261,8 @@ public class MainMenu : Base
 
 	private void BtnExitOnClick()
 	{
-        SaveConfig();
-        Application.Quit();
+		SaveConfig();
+		Application.Quit();
 	}
 
 	// Update is called once per frame

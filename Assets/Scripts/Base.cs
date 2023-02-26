@@ -18,6 +18,7 @@ public class Base : MonoBehaviour
 	public static int gameControl = 0; // 0-keyboard, 1-sensors
 	public static int gamePlayer = 1; // 0-single, 1-double
 	public static int bossTitle = 1; // 0-tutorial, 1-medusa
+	public static int map = 0; // 0-forest, 1-crossroads
 	public static bool showLog = true;
 	// Output
 	public const string gameDataSpliter = ";";
@@ -60,6 +61,17 @@ public class Base : MonoBehaviour
     {
 		return gamePlayer == GetGamePlayer(GamePlayer.SINGLE);
 	}
+
+	public enum Map
+    {
+		FOREST = 0,
+		CROSSROADS = 1
+    }
+
+	public int GetMap(Map map)
+    {
+		return (int)map;
+    }
 
 	public void SetVisible(GameObject gameObject, bool visible)
     {

@@ -143,7 +143,7 @@ public class Cards : Base
         2,
         1
     };
-    const int arrangeCardY = 125;
+    const int arrangeCardY = 125; // 125
     const int arrangeCardCriticalValueY = 50;
     // GameObjects
     Image[,] ImgPlayerCards = new Image[playerCount, maxCardsCount];
