@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\AudioController.cs" />
      <Compile Include="Assets\Scripts\Base.cs" />
      <Compile Include="Assets\Scripts\BossController.cs" />
+     <Compile Include="Assets\Scripts\Calibration.cs" />
      <Compile Include="Assets\Scripts\CardItems.cs" />
      <Compile Include="Assets\Scripts\Cards.cs" />
      <Compile Include="Assets\Scripts\Crossroads.cs" />

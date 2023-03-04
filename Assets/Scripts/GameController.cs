@@ -112,7 +112,14 @@ public class GameController : Base
     {
         if (gamePlayer == GetGamePlayer(GamePlayer.DOUBLE))
         {
-            SceneManager.LoadScene("Game");
+            if (map == GetMap(Map.FOREST))
+            {
+                SceneManager.LoadScene("Forest");
+            }
+            else if (map == GetMap(Map.CROSSROADS))
+            {
+                SceneManager.LoadScene("Crossroads");
+            }
         }
         else
         {
