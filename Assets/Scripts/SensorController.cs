@@ -131,26 +131,26 @@ public class SensorController : Base
         }
         else
         {
-            if (IsInRange(convertedPositionZ[targetPlayer], 5))
+            if (IsInRange(convertedPositionZ[targetPlayer], sensorSensitivity))
             {
-                if (convertedPositionX[targetPlayer] < -10)
+                if (convertedPositionX[targetPlayer] < -sensorSensitivity)
                 {
                     players.Move(targetPlayer, Players.MoveDirection.LEFT);
 
                 }
-                else if (convertedPositionX[targetPlayer] > 10)
+                else if (convertedPositionX[targetPlayer] > sensorSensitivity)
                 {
                     players.Move(targetPlayer, Players.MoveDirection.RIGHT);
 
                 }
             }
-            else if (IsInRange(convertedPositionX[targetPlayer], 5))
+            else if (IsInRange(convertedPositionX[targetPlayer], sensorSensitivity))
             {
-                if (convertedPositionZ[targetPlayer] > 10)
+                if (convertedPositionZ[targetPlayer] > sensorSensitivity)
                 {
                     players.Move(targetPlayer, Players.MoveDirection.UP);
                 }
-                else if (convertedPositionZ[targetPlayer] < -10)
+                else if (convertedPositionZ[targetPlayer] < -sensorSensitivity)
                 {
                     players.Move(targetPlayer, Players.MoveDirection.DOWN);
                 }

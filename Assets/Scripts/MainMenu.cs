@@ -14,10 +14,11 @@ public class MainMenu : Base
 	GameObject PnStart;
 	GameObject PnWelcome;
 	GameObject PnHowToPlay;
-	GameObject PnOptions;
+	GameObject PnSettings;
 	GameObject PnAbout;
 	List<GameObject> mainPanels = new List<GameObject>();
 	Toggle TgLog;
+	Slider SliderSensitivity;
 	// Config
 	string configPath;
 
@@ -28,7 +29,7 @@ public class MainMenu : Base
 		WELCOME = 0,
 		START = 1,
 		HOWTOPLAY = 2,
-		OPTIONS = 3,
+		Settings = 3,
 		ABOUT = 4,
 	}
 
@@ -57,8 +58,8 @@ public class MainMenu : Base
 		mainPanels.Add(PnStart);
 		PnHowToPlay = GameObject.Find("PnHowToPlay");
 		mainPanels.Add(PnHowToPlay);
-		PnOptions = GameObject.Find("PnOptions");
-		mainPanels.Add(PnOptions);
+		PnSettings = GameObject.Find("PnSettings");
+		mainPanels.Add(PnSettings);
 		PnAbout = GameObject.Find("PnAbout");
 		mainPanels.Add(PnAbout);
 		// Load panel
@@ -66,7 +67,7 @@ public class MainMenu : Base
 		// Set onClick events
 		GameObject.Find("BtnStart").GetComponent<Button>().onClick.AddListener(BtnStartOnClick);
 		GameObject.Find("BtnHowToPlay").GetComponent<Button>().onClick.AddListener(BtnHowToPlayOnClick);
-		GameObject.Find("BtnOptions").GetComponent<Button>().onClick.AddListener(BtnOptionsOnClick);
+		GameObject.Find("BtnSettings").GetComponent<Button>().onClick.AddListener(BtnSettingsOnClick);
 		GameObject.Find("BtnAbout").GetComponent<Button>().onClick.AddListener(BtnAboutOnClick);
 		GameObject.Find("BtnExit").GetComponent<Button>().onClick.AddListener(BtnExitOnClick);
 	}
@@ -202,18 +203,26 @@ public class MainMenu : Base
 		ActivePanel(PanelTarget.HOWTOPLAY);
 	}
 
-	private void BtnOptionsOnClick()
+	private void BtnSettingsOnClick()
 	{
-		ActivePanel(PanelTarget.OPTIONS);
+		ActivePanel(PanelTarget.Settings);
 		TgLog = GameObject.Find("TgLog").GetComponent<Toggle>();
-		TgLog.isOn = Base.showLog;
+		TgLog.isOn = showLog;
 		TgLog.onValueChanged.AddListener(TgLogOnValueChanged);
+		SliderSensitivity = GameObject.Find("SliderSensitivity").GetComponent<Slider>();
+		SliderSensitivity.value = sensorSensitivity;
+		SliderSensitivity.onValueChanged.AddListener(SliderSensitivityOnValueChanged);
 	}
 
 	private void TgLogOnValueChanged(bool value)
 	{
-		Base.showLog = TgLog.isOn;
+		showLog = TgLog.isOn;
 	}
+
+	private void SliderSensitivityOnValueChanged(float value)
+    {
+		sensorSensitivity = (int)SliderSensitivity.value;
+    }
 
 	private void BtnAboutOnClick()
 	{
@@ -232,13 +241,16 @@ public class MainMenu : Base
 			{
 				string[] lines = File.ReadAllLines(configPath);
 				int n = lines.Length;
-				string[,] configs = new string[n, 2];
 				for (int i = 0; i < n; i++)
 				{
 					string[] lineValues = lines[i].Split('=');
 					if (lineValues[0] == "showLog")
 					{
 						showLog = Convert.ToBoolean(lineValues[1]);
+					}
+					else if (lineValues[0] == "sensorSensitivity")
+					{
+						sensorSensitivity = Convert.ToInt32(lineValues[1]);
 					}
 				}
 			}
@@ -255,6 +267,7 @@ public class MainMenu : Base
 		FileInfo fileInfo = new FileInfo(configPath);
 		streamWriter = fileInfo.CreateText();
 		streamWriter.WriteLine("showLog=" + showLog.ToString());
+		streamWriter.WriteLine("sensorSensitivity=" + sensorSensitivity);
 		streamWriter.Close();
 		streamWriter.Dispose();
 	}

@@ -10,6 +10,8 @@ public class Base : MonoBehaviour
 	public const int player1 = 0;
 	public const int player2 = 1;
 	public static float[] playerMovingSpeed = new float[] { 2f, 2f };
+	// Sensor
+	public static int sensorSensitivity = 15;
 	// Timer
 	public int minutes = 0;
 	public float seconds = 0f;

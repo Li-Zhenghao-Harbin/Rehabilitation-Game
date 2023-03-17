@@ -1,1 +1,2 @@
 showLog=True
+sensorSensitivity=10
