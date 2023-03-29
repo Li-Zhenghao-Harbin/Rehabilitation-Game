@@ -507,6 +507,11 @@ public class Cards : Base
                 status.LessPride(player);
             }
         }
+        // Tutorial check
+        if (bossTitle == GetBossTitle(BossTitle.TUTORIAL))
+        {
+            gameController.GameOver(player1);
+        }
     }
 
     // Get opponent player

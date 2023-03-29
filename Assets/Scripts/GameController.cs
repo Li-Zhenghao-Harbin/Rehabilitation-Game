@@ -222,7 +222,7 @@ public class GameController : Base
         gameDataSaved = true;
     }
 
-    private void GameOver(int winner)
+    public void GameOver(int winner)
     {
         PnGameOver.SetActive(true);
         GameObject.Find("PnGameOver/TxTitle").GetComponent<Text>().text = "Winner - " + (winner == player1 ? "Player1" : "Player2");
@@ -234,8 +234,17 @@ public class GameController : Base
         if (!gameDataSaved)
         {
             SaveData(winner);
+            Cards.playerFoundCardsCount[player1] = Cards.playerFoundCardsCount[player2] = 0;
+            Cards.playerUsedCardsCount[player1] = Cards.playerUsedCardsCount[player2] = 0;
+            Shapes.playerDrewShapesCount[player1] = Shapes.playerDrewShapesCount[player2] = 0;
+            Players.playerMoveDistance[player1] = Players.playerMoveDistance[player2] = 0;
         }
         end = true;
+        // Tutorial check
+        if (bossTitle == GetBossTitle(BossTitle.TUTORIAL))
+        {
+            GameObject.Find("PnTutorial").SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -277,7 +286,7 @@ public class GameController : Base
                 players.Move(player1, Players.MoveDirection.DOWN);
             }
             // Player2 moves
-            if (!IsBoss())
+            if (!IsBoss() && bossTitle != GetBossTitle(BossTitle.TUTORIAL))
             {
                 if (Input.GetKey(KeyCode.J))
                 {
@@ -314,7 +323,7 @@ public class GameController : Base
                 cards.RemoveShapes(player1);
             }
             // Player2 draws
-            if (!IsBoss())
+            if (!IsBoss() && bossTitle != GetBossTitle(BossTitle.TUTORIAL))
             {
                 if (Input.GetKeyDown(KeyCode.O))
                 {

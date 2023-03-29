@@ -243,16 +243,21 @@ public class SensorController : Base
     {
         if (gameControl == GetGameControl(GameControl.SENSORS))
         {
+            // Keyboard
             if (Input.GetKeyUp(KeyCode.A))
             {
                 CheckingPoints(player1);
             }
-            if (Input.GetKeyUp(KeyCode.L))
+            if (!IsBoss() && bossTitle != GetBossTitle(BossTitle.TUTORIAL) && Input.GetKeyUp(KeyCode.L))
             {
                 CheckingPoints(player2);
             }
+            // Sensors
             SensorMoving(player1);
-            SensorMoving(player2);
+            if (!IsBoss() && bossTitle != GetBossTitle(BossTitle.TUTORIAL))
+            {
+                SensorMoving(player2);
+            }
             // Get data from serial port
             string message = serialController.ReadSerialMessage();
             // debug
