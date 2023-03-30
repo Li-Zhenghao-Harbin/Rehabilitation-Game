@@ -108,8 +108,17 @@ public class GameController : Base
         BtnMenuOnClick();
     }
 
+    private void ResetData()
+    {
+        Cards.playerFoundCardsCount[player1] = Cards.playerFoundCardsCount[player2] = 0;
+        Cards.playerUsedCardsCount[player1] = Cards.playerUsedCardsCount[player2] = 0;
+        Shapes.playerDrewShapesCount[player1] = Shapes.playerDrewShapesCount[player2] = 0;
+        Players.playerMoveDistance[player1] = Players.playerMoveDistance[player2] = 0;
+    }
+
     private void BtnReStartOnClick()
     {
+        ResetData();
         if (gamePlayer == GetGamePlayer(GamePlayer.DOUBLE))
         {
             if (map == GetMap(Map.FOREST))
@@ -136,6 +145,7 @@ public class GameController : Base
 
     private void BtnExitOnClick()
     {
+        ResetData();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -234,10 +244,6 @@ public class GameController : Base
         if (!gameDataSaved)
         {
             SaveData(winner);
-            Cards.playerFoundCardsCount[player1] = Cards.playerFoundCardsCount[player2] = 0;
-            Cards.playerUsedCardsCount[player1] = Cards.playerUsedCardsCount[player2] = 0;
-            Shapes.playerDrewShapesCount[player1] = Shapes.playerDrewShapesCount[player2] = 0;
-            Players.playerMoveDistance[player1] = Players.playerMoveDistance[player2] = 0;
         }
         end = true;
         // Tutorial check

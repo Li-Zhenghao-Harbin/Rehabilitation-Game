@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class Medusa : BossController
 {
 	// Timer
-	const float initBossActionTimer = 6f;
+	const float initBossActionTimer = 10f;
 	float bossActionTimer = initBossActionTimer;
-	const float initPreparingTimer = 1f;
+	const float initPreparingTimer = 2f;
 	float preparingTimer = initPreparingTimer;
 	const float initGazetTimer = 2f;
 	float gazeTimer = 0f;
@@ -30,7 +30,7 @@ public class Medusa : BossController
 	bool activedGaze = false;
 	// Shot
 	GameObject Arrow;
-	float arrowSpeed = 0.15f;
+	float arrowSpeed = 0.12f;
 	Vector3 playerVector3;
 	bool activedShot = false;
 
